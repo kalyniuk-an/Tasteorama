@@ -1,0 +1,42 @@
+{
+  "name": "tasteorama",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalyniuk-an/Tasteorama.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kalyniuk-an/Tasteorama/issues"
+  },
+  "homepage": "https://github.com/kalyniuk-an/Tasteorama#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "celebrate": "^16.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "http-errors": "^2.0.1",
+    "mongoose": "^9.11.2",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "nodemon": "^3.1.14"
+  }
+}
