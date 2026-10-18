@@ -7,6 +7,7 @@ import { logger } from './middlewares/logger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import recipesRouter from './routes/recipesRoutes.js';
 import ingredientsRouter from './routes/ingredientsRoutes.js';
+import  categoriesRoutes from './routes/categoriesRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -17,6 +18,7 @@ app.use(cros());
 
 app.use(recipesRouter);
 app.use(ingredientsRouter);
+app.use(categoriesRoutes);
 
 app.use(notFoundHandler);
 
