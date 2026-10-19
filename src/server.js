@@ -7,7 +7,9 @@ import { logger } from './middlewares/logger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import recipesRouter from './routes/recipesRoutes.js';
 import ingredientsRouter from './routes/ingredientsRoutes.js';
-import  categoriesRoutes from './routes/categoriesRoutes.js';
+import categoriesRoutes from './routes/categoriesRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -15,7 +17,9 @@ const PORT = process.env.PORT ?? 3000;
 app.use(logger);
 app.use(express.json());
 app.use(cros());
+app.use(cookieParser);
 
+app.use(authRoutes);
 app.use(recipesRouter);
 app.use(ingredientsRouter);
 app.use(categoriesRoutes);
