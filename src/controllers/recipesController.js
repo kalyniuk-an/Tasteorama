@@ -26,6 +26,6 @@ export const getRecipeById = async (req, res) => {
 };
 
 export const createRecipe = async (req, res) => {
-  const recipe = await Recipe.create({ ...req.body, userId: req.user._id });
+  const recipe = await Recipe.create(req.body);
   res.status(201).json(recipe);
 };
