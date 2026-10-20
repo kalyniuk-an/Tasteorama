@@ -1,5 +1,6 @@
 import createHttpError from 'http-errors';
 import { Recipe } from '../models/recipe.js';
+import { Favorite } from '../models/favorite.js';
 
 export const getAllRecipe = async (req, res) => {
   const recipes = await Recipe.find();
@@ -22,5 +23,54 @@ export const createRecipe = async (req, res) => {
 
 export const getOwnRecipes = async (req, res) => {
   const recipes = await Recipe.find({ owner: req.user._id });
+  res.status(200).json(recipes);
+}
+
+export const addFavorite = async (req, res) => {
+  const { recipeId } = req.params;
+  const recipe = await Recipe.findById(recipeId);
+  if (!recipe) {
+    throw createHttpError(404, 'Recipe not found');
+  }
+
+  const favorite = await Favorite.findOne({
+    userId: req.user._id,
+    recipeId,
+  });
+  if (favorite) {
+    throw createHttpError(409, 'Recipe already in favorites');
+  }
+
+  const newFavorite = await Favorite.create({
+    userId: req.user._id,
+    recipeId,
+  });
+
+  res.status(201).json(newFavorite);
+};
+
+export const removeFavorite = async (req, res) => {
+  const { recipeId } = req.params;
+
+  const favorite = await Favorite.findOneAndDelete({
+    userId: req.user._id,
+    recipeId,
+  });
+  if (!favorite) {
+    throw createHttpError(404, 'Favorite not found');
+  }
+
+  res.status(200).json({
+    message: 'Recipe removed from favorites'
+  });
+};
+
+export const getFavoriteRecipes = async (req, res) => {
+  const favorites = await Favorite.find({
+    userId: req.user._id,
+  }).populate('recipeId');
+
+  const recipes = favorites.map((favorite) => favorite.recipeId);
+
   res.status(200).json(recipes);
 }
