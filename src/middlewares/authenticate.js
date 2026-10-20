@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
-import { Session } from '../models/session';
-import { User } from '../models/user';
+import { Session } from '../models/session.js';
+import { User } from '../models/user.js';
 
 export const authenticate = async (req, res, next) => {
   const { sessionId, accessToken } = req.cookies;
@@ -20,7 +20,7 @@ export const authenticate = async (req, res, next) => {
 
   const isAccessTokenExpired = session.accessTokenValidUntil < new Date();
 
-  if (!isAccessTokenExpired) {
+  if (isAccessTokenExpired) {
     throw createHttpError(401, 'Access token expired');
   }
 
