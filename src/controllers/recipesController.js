@@ -1,8 +1,18 @@
 import createHttpError from 'http-errors';
 import { Recipe } from '../models/recipe.js';
 
+// export const getAllRecipe = async (req, res) => {
+//   const recipes = await Recipe.find();
+//   res.status(200).json(recipes);
+// };
+
 export const getAllRecipe = async (req, res) => {
-  const recipes = await Recipe.find();
+  console.time('Recipe.find');
+  const recipes = await Recipe.find().lean();
+  console.timeEnd('Recipe.find');
+
+  console.log('Recipes found:', recipes.length);
+
   res.status(200).json(recipes);
 };
 
