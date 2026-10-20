@@ -1,5 +1,21 @@
 import { Schema, model } from 'mongoose';
 
+const recipeIngredientSchema = new Schema(
+  {
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Ingredient',
+      required: true,
+    },
+    measure: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  },
+  { _id: false },
+);
+
 const recipeSchema = new Schema(
   {
     title: {
@@ -11,6 +27,11 @@ const recipeSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
     area: {
       type: String,
@@ -29,8 +50,7 @@ const recipeSchema = new Schema(
     },
     "thumb": {
       type: String,
-      required: false,
-      default: "https://ac.goit.global/fullstack/react/default-avatar.jpg",
+      default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
     time: {
       type: Number,
@@ -38,8 +58,12 @@ const recipeSchema = new Schema(
       min: 1,
     },
     ingredients: {
-      type: [],
+      type: [recipeIngredientSchema],
       required: true,
+      validate: {
+        validator: (ingredients) => ingredients.length > 0,
+        message: 'A recipe must contain at least one ingredient',
+      }
     },
   },
   {

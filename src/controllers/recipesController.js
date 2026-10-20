@@ -14,3 +14,8 @@ export const getRecipeById = async (req, res) => {
   }
   res.status(200).json(recipe);
 };
+
+export const createRecipe = async (req, res) => {
+  const recipe = await Recipe.create(req.body);
+  res.status(201).json(recipe);
+};
