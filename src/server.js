@@ -10,6 +10,7 @@ import ingredientsRouter from './routes/ingredientsRoutes.js';
 import categoriesRoutes from './routes/categoriesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cookieParser from 'cookie-parser';
+import { errors } from 'celebrate';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -25,7 +26,7 @@ app.use(ingredientsRouter);
 app.use(categoriesRoutes);
 
 app.use(notFoundHandler);
-
+app.use(errors());
 app.use(errorHandler);
 
 await connectMongoDB();
