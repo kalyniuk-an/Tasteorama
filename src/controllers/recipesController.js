@@ -3,8 +3,46 @@ import { Recipe } from '../models/recipe.js';
 import { Favorite } from '../models/favorite.js';
 
 export const getAllRecipe = async (req, res) => {
-  const recipes = await Recipe.find();
-  res.status(200).json(recipes);
+  const { page = 1, perPage = 12, category, ingredient, search } = req.query;
+
+  const skip = (Number(page) - 1) * Number(perPage);
+  const recipesQuery = Recipe.find();
+
+  if (category) {
+    recipesQuery.where('category').equals(category);
+  }
+  if (ingredient) {
+    recipesQuery.where('ingredients.id').equals(ingredient);
+  }
+
+  if (search) {
+    const regex = new RegExp(
+      search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      'i',
+    );
+
+    recipesQuery.where({
+      $or: [
+        { title: { $regex: regex } },
+        { description: { $regex: regex } },
+      ]
+    })
+  }
+
+  const [totalItems, recipes] = await Promise.all([
+    recipesQuery.clone().countDocuments(),
+    recipesQuery.skip(skip).limit(Number(perPage)),
+  ]);
+
+  const totalPages = Math.ceil(totalItems / Number(perPage));
+
+  res.status(200).json({
+    page: Number(page),
+    perPage: Number(perPage),
+    totalItems,
+    totalPages,
+    recipes,
+  });
 };
 
 export const getRecipeById = async (req, res) => {
