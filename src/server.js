@@ -9,6 +9,7 @@ import recipesRouter from './routes/recipesRoutes.js';
 import ingredientsRouter from './routes/ingredientsRoutes.js';
 import categoriesRoutes from './routes/categoriesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import usersRouter from './routes/usersRoutes.js';
 import cookieParser from 'cookie-parser';
 import { errors } from 'celebrate';
 
@@ -24,6 +25,7 @@ app.use(authRoutes);
 app.use(recipesRouter);
 app.use(ingredientsRouter);
 app.use(categoriesRoutes);
+app.use(usersRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
